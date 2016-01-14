@@ -1,10 +1,17 @@
 #!/bin/bash
 
+cur_dir=$(pwd)
+
+rm -rf ~/.vim*
 #Install vundle
-cd $HOME
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-#Copy existing vimrc file
-ln -s /.vimrc ~/.vimrc
+
+#Copy existing . files
+cd $cur_dir
+rm -rf ~/.oh-my-zsh
+rm ~/.vimrc
+rm ~/.zshrc
+ln -sf $cur_dir/vimrc ~/.vimrc
 vim +PluginInstall +qall
 
 #Configure YouCompleteMe
@@ -23,7 +30,9 @@ chmod +x ./install.sh
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 # Copy over existing .zshrc file from repo
-ln -s /.zshrc ~/.zshrc
+cd $cur_dir
+ln -sf $cur_dir/zshrc ~/.zshrc
+
 
 
 # Set zsh as default shell
