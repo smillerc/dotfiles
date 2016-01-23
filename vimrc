@@ -7,46 +7,50 @@ set clipboard=unnamed
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+"Vundle package managment
 Plugin 'VundleVim/Vundle.vim'
-"git interface
+
+"Git 
 Plugin 'tpope/vim-fugitive'
-"filesystem
+
+"Filesystem
 Plugin 'scrooloose/nerdtree'
+Plugin 'ervandew/supertab'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim' 
 
-"html
-Plugin 'isnowfy/python-vim-instant-markdown'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'nelstrom/vim-markdown-preview'
-"python sytax checker
+"Python
+Plugin 'davidhalter/jedi-vim'
 Plugin 'nvie/vim-flake8'
-Plugin 'vim-scripts/Pydiction'
 Plugin 'vim-scripts/indentpython.vim'
+
+"Syntax checking
 Plugin 'scrooloose/syntastic'
 
-"auto-completion stuff
-Plugin 'klen/python-mode'
+"Autocompletion
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'klen/rope-vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
-""code folding
-Plugin 'tmhedberg/SimpylFold'
 
+"Others
+Plugin 'tmhedberg/SimpylFold'
 Plugin 'bling/vim-airline'
 
-"Colors!!!
+"Themes
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'jnurmine/Zenburn'
 
 call vundle#end()
 
-filetype plugin indent on    " enables filetype detection
+"Set plugin based on filetype
+filetype plugin indent on
+
+"-----------------
+"SimpylFold options
+"-----------------
 let g:SimpylFold_docstring_preview = 1
 
-"autocomplete
+"-----------------
+"YCM options
+"-----------------
 let g:ycm_autoclose_preview_window_after_completion=1
 
 "custom keys
@@ -55,33 +59,18 @@ map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "
 call togglebg#map("<F5>")
 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+"-----------------
+"NERDTree options
+"-----------------
+let NERDTreeIgnore=['\.pyc$', '\~$']
 
-"I don't like swap files
 set noswapfile
+set nu "line numbers on
 
-"turn on numbering
-set nu
-
-"python with virtualenv support
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUA_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  sys.path.insert(0, project_base_dir)
-  activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-
-"it would be nice to set tag files by the active virtualenv here
-":set tags=~/mytags "tags for ctags and taglist
-"omnicomplete
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-
-"------------Start Python PEP 8 stuff----------------
-" Number of spaces that a pre-existing tab is equal to.
+"-----------------
+"Python options
+"-----------------
+" Number of spaces that a pre-existing tab is equal to
 au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
 
 "spaces for indents
@@ -94,6 +83,7 @@ highlight BadWhitespace ctermbg=red guibg=red
 
 " Display tabs at the beginning of a line in Python mode as bad.
 au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+
 " Make trailing whitespace be flagged as bad.
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
@@ -116,14 +106,15 @@ autocmd FileType python set autoindent
 " make backspaces more powerfull
 set backspace=indent,eol,start
 
-
 "Folding based on indentation:
 autocmd FileType python set foldmethod=indent
+
 "use space to open folds
 nnoremap <space> za 
-"----------Stop python PEP 8 stuff--------------
 
-" airline
+"-----------------
+" airline options
+"-----------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme = 'solarized'
 let g:airline#extensions#syntastic#enabled = 1
@@ -149,12 +140,11 @@ let g:airline_symbols.whitespace = 'Ξ'
 
 set laststatus=2
 
-
+"-----------------
+" Split window remap
+"-----------------
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-
-"Python mode options
-let g:pymode_python = 'python3'
